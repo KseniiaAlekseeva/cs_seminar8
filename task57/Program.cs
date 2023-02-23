@@ -20,61 +20,61 @@ void PrintArray(int[,] array)
     Console.WriteLine();
 }
 
-void SortArray(int[,] array)
+void BubbleSort(int[,] array)
 {
+    int m = array.GetLength(0);
+    int n = array.GetLength(1);
+    int count = m * n;
 
+    for (int jj = 0; jj < m * n; jj++)
+    {
+        for (int ii = 0; ii < count - 1; ii++)
+        {
+            int i1 = ii / n;
+            int j1 = ii % n;
+            int i2 = (ii + 1) / n;
+            int j2 = (ii + 1) % n;
+
+            if (array[i1, j1] > array[i2, j2])
+            {
+                int cur = array[i1, j1];
+                array[i1, j1] = array[i2, j2];
+                array[i2, j2] = cur;
+            }
+        }
+        count--;
+    }
 }
 
 void FrequencyDict(int[,] array)
 {
     int m = array.GetLength(0);
     int n = array.GetLength(1);
-    int mn = m * n;
 
+    int num = array[0, 0];
+    int count = 1;
 
-
-    for (int ii = 0; ii < m * n; ii++)
+    for (int ii = 0; ii < m * n - 1; ii++)
     {
-        int i = ii / n;
-        int j = ii % n;
-        Console.WriteLine($"{ii} --- i {i} j {j}");
+        int i1 = ii / n;
+        int j1 = ii % n;
+        int i2 = (ii + 1) / n;
+        int j2 = (ii + 1) % n;
 
-        int temp = array[i, j];
-        int count = 0;
-        for (int k = 0; k < m * n; k++)
+        if (array[i1, j1] == array[i2, j2])
         {
-            int iii = k / n;
-            int jjj = k % n;
-            if (temp == array[iii, jjj])
-                count++;
+            count++;
         }
-        Console.WriteLine($"Element {temp} - {count}.");
-
-        // for (int i = 0; i < m; i++)
-        // {
-        //     for (int j = 0; j < n; j++)
-        //     {
-        //         (i * m) + j;
-        //         temp = array[i, j];
-        //         for (int k = 0; k < count + 1; k++)
-        //         {
-        //             flag = false;
-        //             if (freq[k, 0] == array[i, j])
-        //             {
-        //                 freq[k, 1] += 1;
-        //                 flag = true;
-        //             }
-        //             else
-        //             {
-        //                 freq[count, 0] = array[i, j];
-        //                 count += 1;
-        //             }
-        //         }
-        //     }
-        // }
-        //return freq;
+        else
+        {
+            Console.WriteLine($"Number {num} - {count} times.");
+            num = array[i2, j2];
+            count = 1;
+        }
     }
+    Console.WriteLine($"Number {num} - {count} times.");
 }
+
 Console.WriteLine("Enter the dimension m*n of array: ");
 string[] str = Console.ReadLine().Split(" ");
 
@@ -82,6 +82,9 @@ int m = Convert.ToInt32(str[0]);
 int n = Convert.ToInt32(str[1]);
 
 int[,] arr = CreateArray(m, n, 0, 9);
+PrintArray(arr);
+
+BubbleSort(arr);
 PrintArray(arr);
 
 FrequencyDict(arr);
